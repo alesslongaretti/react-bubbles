@@ -18,9 +18,11 @@ class Login extends React.Component {
     axios
     .post('/login', this.state.credentials)
     .then(res => {
+      localStorage.setItem('token', res.data.payload);
       this.props.history.push('/')
     })
     .catch(err => {
+      localStorage.removeItem('token')
       console.log('invalid login: ', err)
     });
   }
