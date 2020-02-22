@@ -10,6 +10,15 @@ class Login extends React.Component {
     }
   };
 
+  handleChange = e => {
+    this.setState({
+      credentials: {
+        ...this.state.credentials,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
   // make a post request to retrieve a token from the api
 
 
@@ -32,6 +41,23 @@ class Login extends React.Component {
     <>
       <h1>Welcome to the Bubble App!</h1>
       <p>Build a login page here</p>
+      <form onSubmit={this.login}>
+        <label>username:</label>
+        <input
+        type='text'
+        name='username'
+        value={this.state.credentials.username}
+        onChange={this.handleChange}
+        />
+        <label>Password: </label>
+        <input
+        type="password"
+        name="password"
+        value={this.state.credentials.password}
+        onChange={this.handleChange}
+        />
+        <button>Log In</button>
+      </form>
     </>
   );
   }

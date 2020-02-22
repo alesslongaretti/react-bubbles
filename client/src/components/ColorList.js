@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
@@ -17,13 +17,33 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const saveEdit = e => {
-    e.preventDefault();
+    axiosWithAuth()
+      .put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
   };
 
   const deleteColor = color => {
+    axiosWithAuth()
+      .delete(`/colors/${color.id}`, color)
+      .then(res => {
+        axiosWithAuth()
+          .get("/colors")
+          .then(res => {
+            console.log(res);
+            updateColors(res.data);
+          });
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // make a delete request to delete this color
   };
 
@@ -34,12 +54,14 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+              <span
+                className="delete"
+                onClick={e => {
+                  e.stopPropagation();
+                  deleteColor(color);
+                }}
+              >
+                x
               </span>{" "}
               {color.color}
             </span>
