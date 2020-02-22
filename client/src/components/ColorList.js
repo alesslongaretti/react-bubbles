@@ -12,7 +12,7 @@ const ColorList = ({ colors, updateColors }) => {
   const [colorToEdit, setColorToEdit] = useState(initialColor);
   const [col, setColors] = useState(initialColor);
 
-  const changeHandle = e => {
+  const changeHandler = e => {
     setColors({
       ...col,
       [e.target.name]: e.target.value
@@ -90,6 +90,21 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </li>
         ))}
+        <li>
+        <form onSubmit={handleSubmit}>
+          <label>Color: </label>
+        <input
+          type="text"
+          name="color"
+          onChange={changeHandler}
+          placeholder="color"
+          value={col.color}
+        />
+
+        <button>ADD</button>
+      </form>
+
+        </li>
       </ul>
       {editing && (
         <form onSubmit={saveEdit}>
@@ -122,17 +137,6 @@ const ColorList = ({ colors, updateColors }) => {
         </form>
       )}
       <div className="spacer" />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="color"
-          onChange={changeHandle}
-          placeholder="color"
-          value={col.color}
-        />
-
-        <button>ADD</button>
-      </form>
       {/* stretch - build another form here to add a color */}
     </div>
   );
